@@ -1,0 +1,32 @@
+{
+  "name": "foe-2s",
+  "version": "1.0.0",
+  "description": "",
+  "main": "rollup.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-multi-entry": "^3.0.1",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-typescript": "^4.1.2",
+    "heimdalljs": "^0.2.6",
+    "rollup-plugin-svelte": "^5.2.2",
+    "rsvp": "^4.8.5",
+    "svelte": "^3.23.0",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "@orbit/coordinator": "^0.16.5",
+    "@orbit/core": "^0.16.3",
+    "@orbit/data": "^0.16.5",
+    "@orbit/indexeddb": "^0.16.5",
+    "@orbit/memory": "^0.16.5",
+    "@orbit/utils": "^0.16.3",
+    "svelte-table": "^0.1.9"
+  }
+}
