@@ -4,5 +4,5 @@ import { SyncStrategy }  from "@orbit/coordinator";
 export default new SyncStrategy({
   source: "indexedDB",
   target: "memory",
-  blocking: true
+  blocking: false
 })
