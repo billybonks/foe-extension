@@ -44,9 +44,7 @@ export default class GreatBuildingsService extends EventTarget {
 
   async pushGreatBuildings(greatBuildings, date){
     performance.mark('startPushGreatBuildings');
-    let result = []
-    for(let i=0; i < greatBuildings.length; i++) {
-      let gb = greatBuildings[i];
+    let result = await Promise.all(greatBuildings.map(async(gb) => {
       let playerId = gb.player.player_id;
 
       let playerGreatBuildingId = `${gb.entity_id}-${playerId}`;
@@ -88,8 +86,7 @@ export default class GreatBuildingsService extends EventTarget {
 
 
       if(gb.current_progress > 0){
-        result.push(playerGreatBuildings)
-        await this.store.findOrCreate({
+        this.store.findOrCreate({
           type: 'greatBuildingLevelLog',
           id: `${gb.current_progress}-${gb.level}-${playerGreatBuildingId}`,
           attributes: {
@@ -102,7 +99,8 @@ export default class GreatBuildingsService extends EventTarget {
           }
         });
       }
-    }
+      return playerGreatBuildings;
+    }));
     performance.mark('stopPushGreatBuildings');
     performance.measure("measure time to push greatbuildings", 'startPushGreatBuildings', 'stopPushGreatBuildings');
     // Pull out all of the measurements.

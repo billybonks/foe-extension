@@ -32,9 +32,8 @@ export default class GreatBuildingProgressionList {
       results.push({
         playerName: player.attributes.name,
         greatBuildingName: greatBuilding.attributes.name,
-        current: levelLog[0].attributes.forgePoints,
-        lastChanged: rtf1.format((levelLog[0].attributes.createdAt - date) / 36e5, 'hours'),
-        lastChangedDate: levelLog[0].attributes.createdAt
+        lastChanged: rtf1.format((gb.attributes.lastVisit - date) / 36e5, 'hours'),
+        lastChangedDate: gb.attributes.lastVisit
       });
     }
     console.table(results.sort((a, b) => b.lastChangedDate - a.lastChangedDate))
