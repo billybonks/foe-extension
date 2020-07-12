@@ -85,7 +85,7 @@
 	}
 
 	.window-body {
-		max-length: 500px;
+		max-height: 500px;
 		overflow-y: scroll
 	}
 	.window-box {

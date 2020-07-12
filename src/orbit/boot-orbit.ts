@@ -11,7 +11,7 @@ import indexedDBSyncMemory from './stratergies/indexed-db-sync-memory';
 
 
 
-const debug = false;
+const debug = true;
 export default function(schema) {
   const memory = new MemorySource({ schema });
   const indexdbSource = new IndexdbSource({ schema });

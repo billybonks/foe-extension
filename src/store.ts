@@ -18,6 +18,7 @@ export default class Store {
     try {
       record = await this.memory.query(q => q.findRecord({ type: payload.type, id: payload.id }));
     } catch(error) {
+      debugger
       if(error instanceof RecordNotFoundException){
         return record = await this.memory.update(t => [
           t.addRecord(payload),

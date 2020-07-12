@@ -3,6 +3,16 @@ import FoeProxy from './../foe-proxy/index';
 import GreatBuildingServiceMessage from './../foe-proxy/messages/great-building-service-message'
 // import Heimdall from 'heimdalljs';
 // import { Promise } from 'rsvp';
+
+
+const chunk = (input, size) => {
+  return input.reduce((arr, item, idx) => {
+    return idx % size === 0
+      ? [...arr, [item]]
+      : [...arr.slice(0, -1), [...arr.slice(-1)[0], item]];
+  }, []);
+};
+
 export default class GreatBuildingsService extends EventTarget {
   store: Store;
   world: string;
@@ -43,8 +53,15 @@ export default class GreatBuildingsService extends EventTarget {
   }
 
   async pushGreatBuildings(greatBuildings, date){
+    let result = [];
+    let chunkedGBs = chunk(greatBuildings, 10);
+    let playerGretBuildings = chunkedGBs.map(() => {
+
+    })//5,10
     performance.mark('startPushGreatBuildings');
-    let result = await Promise.all(greatBuildings.map(async(gb) => {
+    // let result = await Promise.all(greatBuildings.map(async(gb) => {
+    for(let i = 0; i < greatBuildings.length; i++){
+      let gb = greatBuildings[i];
       let playerId = gb.player.player_id;
 
       let playerGreatBuildingId = `${gb.entity_id}-${playerId}`;
@@ -85,8 +102,8 @@ export default class GreatBuildingsService extends EventTarget {
       });
 
 
-      if(gb.current_progress > 0){
-        this.store.findOrCreate({
+      if(gb.current_progress > 0) {
+        let levelLog = await this.store.findOrCreate({
           type: 'greatBuildingLevelLog',
           id: `${gb.current_progress}-${gb.level}-${playerGreatBuildingId}`,
           attributes: {
@@ -98,9 +115,18 @@ export default class GreatBuildingsService extends EventTarget {
             playerGreatBuilding: { data: { type: "playerGreatBuilding", id: playerGreatBuildingId } }
           }
         });
+        debugger
+       let r = {
+          playerName: gb.player.name,
+          greatBuildingName: gb.name,
+          lastChangedAt: levelLog.attributes.createdAt,
+        }
+        result.push(r);
       }
-      return playerGreatBuildings;
-    }));
+    }
+   // return r
+   // }))
+    debugger
     performance.mark('stopPushGreatBuildings');
     performance.measure("measure time to push greatbuildings", 'startPushGreatBuildings', 'stopPushGreatBuildings');
     // Pull out all of the measurements.
@@ -109,6 +135,6 @@ export default class GreatBuildingsService extends EventTarget {
     // Finally, clean up the entries.
     performance.clearMarks();
     performance.clearMeasures();
-    return result;
+    return result.filter((gb) => !!gb);
   }
 }
