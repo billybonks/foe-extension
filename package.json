@@ -16,7 +16,7 @@
     "heimdalljs": "^0.2.6",
     "rollup-plugin-svelte": "^5.2.2",
     "rsvp": "^4.8.5",
-    "svelte": "^3.23.0",
+    "svelte": "^3.49.0",
     "tslib": "^2.0.0",
     "typescript": "^3.9.3"
   },
